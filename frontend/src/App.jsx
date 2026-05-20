@@ -1,19 +1,26 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
 import Form from "./pages/form";
 import Prep from "./pages/prep";
 import Question from "./pages/question";
+import Answer from "./pages/answer";
 
 function App() {
 
   return (
-    <BrowserRouter>
 
-      <Routes>
-        <Route path="/" element={<Form />} />
-        <Route path="/prep" element={<Prep />} />
-        <Route path="/question" element={<Question />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+
+      <Route path="/" element={<Form />} />
+
+      <Route path="/prep" element={<Prep />} />
+
+      <Route path="/question" element={<Question />} />
+
+      <Route path="/answer" element={<Answer />} />
+
+    </Routes>
+
   );
 }
 
