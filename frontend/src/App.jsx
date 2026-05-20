@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Form from "./pages/Form";
+import Form from "./pages/form";
+import Prep from "./pages/prep";
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Form />} />
+        <Route path="/prep" element={<Prep />} />
       </Routes>
     </BrowserRouter>
   );

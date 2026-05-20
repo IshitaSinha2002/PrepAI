@@ -1,0 +1,418 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+.prep-root {
+  background-color: #0d1117;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #e8eaf6;
+}
+
+.prep-header {
+  padding: 18px 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+
+.prep-logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  display: flex;
+  justify-content: center;
+}
+
+.prep-main {
+  flex: 1;
+  padding: 20px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Roadmap */
+.roadmap-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 22px 28px;
+}
+
+.roadmap-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.roadmap-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.roadmap-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #c8cbf5;
+  border: 1px solid rgba(200,203,245,0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+}
+
+.roadmap-stages {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 160px;
+}
+
+.stage-connector {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.12);
+  margin-top: 20px;
+  align-self: flex-start;
+}
+
+.connector--done {
+  background: rgba(200,203,245,0.4);
+}
+
+/* Stage icons */
+.stage-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stage-icon--complete {
+  background: rgba(200,203,245,0.15);
+  border: 1px solid rgba(200,203,245,0.3);
+  color: #c8cbf5;
+}
+
+.stage-icon--inprogress {
+  background: rgba(200,203,245,0.1);
+  border: 2px solid #c8cbf5;
+  color: #c8cbf5;
+}
+
+.stage-icon--locked {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #4a5568;
+}
+
+.stage-num {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #4a5568;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.stage-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.locked .stage-label {
+  color: #6b7280;
+}
+
+.stage-sub {
+  font-size: 13px;
+}
+
+.stage-sub--complete {
+  color: #6b7280;
+}
+
+.stage-sub--inprogress {
+  color: #8b8ff5;
+}
+
+.stage-sub--locked {
+  color: #4a5568;
+}
+
+/* Bottom grid */
+.prep-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 18px;
+  align-items: start;
+}
+
+/* Schedule */
+.schedule-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow: visible;
+}
+
+.schedule-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e8eaf6;
+}
+
+.schedule-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 14px;
+  padding: 12px 0;
+  border-left: 2px solid rgba(255,255,255,0.06);
+  padding-left: 16px;
+  position: relative;
+  margin-left: 6px;
+}
+
+.schedule-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  left: -6px;
+  top: 18px;
+  flex-shrink: 0;
+}
+
+.dot--live {
+  background: #6366f1;
+  box-shadow: 0 0 6px rgba(99,102,241,0.6);
+}
+
+.dot--normal {
+  background: #6366f1;
+}
+
+.dot--dim {
+  background: #3d4a6a;
+}
+
+.schedule-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.schedule-row1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.schedule-time {
+  font-size: 13px;
+  font-weight: 600;
+  color: #a0aec0;
+}
+
+.live-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #6366f1;
+  background: rgba(99,102,241,0.12);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.schedule-duration {
+  margin-left: auto;
+  font-size: 12px;
+  color: #4a5568;
+  background: rgba(255,255,255,0.06);
+  border-radius: 5px;
+  padding: 2px 8px;
+}
+
+.schedule-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.schedule-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.schedule-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #6366f1;
+  text-decoration: none;
+  margin-top: 4px;
+}
+
+.schedule-link:hover {
+  text-decoration: underline;
+}
+
+/* Right column */
+.prep-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Launch card */
+.launch-card {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.launch-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.launch-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.launch-btn {
+  background: #1e40af;
+  border: none;
+  border-radius: 10px;
+  height: 52px;
+  width: 100%;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s;
+}
+
+.launch-btn:hover {
+  background: #1a37a0;
+}
+
+.launch-powered {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: rgba(255,255,255,0.45);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Insight card */
+.insight-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.insight-icon {
+  width: 38px;
+  height: 38px;
+  background: rgba(200,203,245,0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c8cbf5;
+  flex-shrink: 0;
+}
+
+.insight-text {
+  flex: 1;
+}
+
+.insight-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8eaf6;
+}
+
+.insight-value {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.insight-info {
+  color: #3d4a6a;
+  cursor: pointer;
+}
+
+/* Footer */
+.prep-footer {
+  padding: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: #3d4a6a;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  flex-shrink: 0;
+}
