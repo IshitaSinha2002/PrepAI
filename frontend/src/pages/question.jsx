@@ -113,13 +113,24 @@ export default function Question({ onNext }) {
           </div>
 
           <div className="submit-row">
-            <button className="submit-btn" onClick={handleSubmit} disabled={!answer.trim()}>
-              Submit Answer
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
-            </button>
+            <button
+  type="button"
+  className="submit-btn"
+  disabled={!answer.trim()}
+  onClick={() => {
+    console.log("Submit Answer Clicked");
+    window.location.href = "/answer";
+  }}
+>
+
+  Submit Answer
+
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <line x1="22" y1="2" x2="11" y2="13" />
+    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+  </svg>
+
+</button>
           </div>
 
           <div className="feedback-area">
