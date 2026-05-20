@@ -1,15 +1,22 @@
-from roadmap import generate_roadmap
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-role = input("Enter Role: ")
-experience_level = input("Enter Experience Level: ")
-tech_stack = input("Enter Tech Stack: ")
+from routes.roadmap import router as roadmap_router
 
-print("\nGenerating Interview Roadmap...\n")
+app = FastAPI()
 
-roadmap = generate_roadmap(
-    role,
-    experience_level,
-    tech_stack
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-print(roadmap)
+app.include_router(roadmap_router)
+
+@app.get("/")
+def home():
+    return {
+        "message": "AI Interview Prep Backend Running"
+    }
