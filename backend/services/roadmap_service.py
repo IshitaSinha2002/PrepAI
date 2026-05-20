@@ -1,10 +1,9 @@
-import os
 import json
-
+import os
 from dotenv import load_dotenv
 
-from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
 
 from prompts.roadmap_prompt import ROADMAP_PROMPT
 
@@ -12,7 +11,8 @@ load_dotenv()
 
 llm = ChatGroq(
     groq_api_key=os.getenv("GROQ_API_KEY"),
-    model_name="llama-3.1-8b-instant"
+    model="llama-3.3-70b-versatile",
+    temperature=0.7
 )
 
 prompt = PromptTemplate(
@@ -24,6 +24,7 @@ prompt = PromptTemplate(
     template=ROADMAP_PROMPT
 )
 
+
 def generate_roadmap(data):
 
     chain = prompt | llm
@@ -34,13 +35,16 @@ def generate_roadmap(data):
         "tech_stack": data.tech_stack
     })
 
+    print("RAW RESPONSE:")
+    print(response.content)
+
     cleaned_response = (
-    response.content
-    .replace("```json", "")
-    .replace("```", "")
-    .strip()
-)
+        response.content
+        .replace("```json", "")
+        .replace("```", "")
+        .strip()
+    )
 
-    print(cleaned_response)
+    roadmap = json.loads(cleaned_response)
 
-    return json.loads(cleaned_response)
+    return roadmap

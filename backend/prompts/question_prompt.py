@@ -1,9 +1,7 @@
 QUESTION_PROMPT = """
-You are an expert AI technical interviewer.
+You are an AI Interview Preparation Assistant.
 
-Generate interview questions for the candidate.
-
-Candidate Details:
+Generate ONE interview question based on:
 
 Role: {role}
 Experience Level: {experience_level}
@@ -14,13 +12,21 @@ Return ONLY valid JSON.
 Format:
 
 {{
-    "technical_questions": [],
-    "behavioral_questions": [],
-    "coding_questions": []
+  "question": "",
+  "difficulty": "",
+  "category": "",
+  "hints": [
+    "",
+    ""
+  ]
 }}
 
-Generate:
-- 5 technical questions
-- 3 behavioral questions
-- 2 coding questions
+Rules:
+- Question should match role and tech stack
+- difficulty should be:
+  Junior
+  Intermediate
+  Senior
+- category should be technical area
+- hints should contain 2 short hints
 """

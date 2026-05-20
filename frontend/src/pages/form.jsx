@@ -1,30 +1,65 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import "../styles/form.css";
 
-export default function Form() {
+import { generateRoadmap } from "../services/api";
 
-  const navigate = useNavigate();
+export default function Form() {
 
   const [role, setRole] = useState("");
   const [level, setLevel] = useState("");
   const [techStack, setTechStack] = useState("");
 
-  const handleSubmit = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
 
     console.log("Button Clicked");
 
-    if (role && level) {
+    if (!role || !level) {
 
-      navigate("/prep", {
-        state: {
-          role,
-          level,
-          techStack,
-        },
+      console.log("Missing Fields");
+      return;
+    }
+
+    try {
+
+      setLoading(true);
+
+      console.log("Sending API Request");
+
+      const response = await generateRoadmap({
+        role,
+        experience_level: level,
+        tech_stack: techStack
       });
 
+      console.log("API Response:", response);
+
+      localStorage.setItem(
+        "roadmapData",
+        JSON.stringify(response.data)
+      );
+
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          role,
+          level,
+          techStack
+        })
+      );
+
+      console.log("Redirecting To Prep");
+
+      window.location.href = "/prep";
+
+    } catch (error) {
+
+      console.log("ERROR:", error);
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
@@ -54,7 +89,14 @@ export default function Form() {
             <div className="form-input-wrapper">
 
               <span className="form-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                >
                   <rect x="2" y="7" width="20" height="14" rx="2" />
                   <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
                 </svg>
@@ -83,7 +125,14 @@ export default function Form() {
               <div className="form-input-wrapper select-wrapper">
 
                 <span className="form-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  >
                     <line x1="18" y1="20" x2="18" y2="10" />
                     <line x1="12" y1="20" x2="12" y2="4" />
                     <line x1="6" y1="20" x2="6" y2="14" />
@@ -114,7 +163,14 @@ export default function Form() {
                 </select>
 
                 <span className="select-arrow">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
                 </span>
@@ -132,7 +188,14 @@ export default function Form() {
               <div className="form-input-wrapper">
 
                 <span className="form-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  >
                     <polyline points="16 18 22 12 16 6" />
                     <polyline points="8 6 2 12 8 18" />
                   </svg>
@@ -153,16 +216,28 @@ export default function Form() {
           </div>
 
           <button
-  type="button"
-  className="form-btn"
-  onClick={() => window.location.href = "/prep"}
->
+            type="button"
+            className="form-btn"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
 
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="5,3 19,12 5,21" />
-            </svg>
+            {loading ? (
+              "Generating..."
+            ) : (
+              <>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <polygon points="5,3 19,12 5,21" />
+                </svg>
 
-            Start Prep
+                Start Prep
+              </>
+            )}
 
           </button>
 
@@ -170,7 +245,14 @@ export default function Form() {
 
         <div className="form-status">
 
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
           </svg>
 

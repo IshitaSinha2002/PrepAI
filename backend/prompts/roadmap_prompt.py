@@ -1,22 +1,30 @@
 ROADMAP_PROMPT = """
-You are an expert technical interview coach.
+You are an AI interview preparation expert.
 
-Generate a detailed interview preparation roadmap.
+Generate an interview preparation roadmap.
 
-Candidate Details:
 Role: {role}
 Experience Level: {experience_level}
 Tech Stack: {tech_stack}
 
-Return ONLY valid JSON.
+Return ONLY valid JSON array.
 
-Expected JSON format:
+Format:
 
-{{
-    "core_subjects": [],
-    "important_topics": [],
-    "preparation_sequence": [],
-    "interview_tips": [],
-    "common_mistakes": []
-}}
+[
+  {{
+    "label": "",
+    "status": "",
+    "progress": 0
+  }}
+]
+
+Rules:
+- Generate 4 roadmap stages
+- status must be:
+  "complete"
+  "inprogress"
+  "locked"
+- Only one stage should be "inprogress"
+- progress only for inprogress stage
 """

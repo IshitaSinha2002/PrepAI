@@ -1,42 +1,55 @@
-import os
-import json
-
-from dotenv import load_dotenv
-
-from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 
-from prompts.evaluation_prompt import EVALUATION_PROMPT
+from langchain_groq import ChatGroq
 
-load_dotenv()
 
 llm = ChatGroq(
-    groq_api_key=os.getenv("GROQ_API_KEY"),
-    model_name="llama-3.3-70b-versatile"
+
+    model="llama-3.3-70b-versatile",
+
+    temperature=0.5
 )
 
+
 prompt = PromptTemplate(
+
     input_variables=[
         "question",
         "answer"
     ],
-    template=EVALUATION_PROMPT
+
+    template="""
+You are an interview evaluator.
+
+Question:
+{question}
+
+Candidate Answer:
+{answer}
+
+Evaluate the answer professionally.
+
+Give:
+1. Strengths
+2. Missing points
+3. Improvement suggestion
+
+Keep response within 5-6 lines.
+"""
 )
+
+
+chain = prompt | llm
+
 
 def evaluate_answer(data):
 
-    chain = prompt | llm
-
     response = chain.invoke({
+
         "question": data.question,
+
         "answer": data.answer
+
     })
 
-    cleaned_response = (
-        response.content
-        .replace("```json", "")
-        .replace("```", "")
-        .strip()
-    )
-
-    return json.loads(cleaned_response)
+    return response.content
