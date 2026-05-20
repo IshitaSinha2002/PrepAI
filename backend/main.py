@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routes.roadmap import router as roadmap_router
 from routes.question_route import router as question_router
+from routes.evaluation_route import router as evaluation_router
 
 app = FastAPI()
 
@@ -16,6 +17,8 @@ app.add_middleware(
 
 app.include_router(roadmap_router)
 app.include_router(question_router)
+app.include_router(evaluation_router)
+
 @app.get("/")
 def home():
     return {
