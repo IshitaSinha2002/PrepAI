@@ -1,113 +1,148 @@
-import React, { useEffect, useState } from "react";
 import "../styles/prep.css";
-import { generateQuestions } from "../services/api";
 
-const schedule = [
-  {
-    time: "09:00 AM",
-    duration: "60 mins",
-    title: "Data Structures",
-    desc: "Advanced Heap & Priority Queue implementation exercises.",
-    live: false,
-  },
-  {
-    time: "02:00 PM",
-    duration: "45 mins",
-    title: "Mock Interview",
-    desc: "Focused on Algorithm optimization with Senior AI Proctor.",
-    live: true,
-  },
-  {
-    time: "05:30 PM",
-    duration: "30 mins",
-    title: "Behavioral Review",
-    desc: 'Reviewing "Star Method" responses for recent project challenges.',
-    live: false,
-  },
-];
+import React, { useEffect, useState } from "react";
+
+import {
+  generateQuestions,
+  generateSchedule
+} from "../services/api";
+
 
 function StageIcon({ status }) {
+
   if (status === "complete") {
+
     return (
+
       <div className="stage-icon stage-icon--complete">
         ✓
       </div>
+
     );
   }
 
   if (status === "inprogress") {
+
     return (
+
       <div className="stage-icon stage-icon--inprogress">
         ⏳
       </div>
+
     );
   }
 
   return (
+
     <div className="stage-icon stage-icon--locked">
       🔒
     </div>
+
   );
 }
+
 
 export default function Prep() {
 
   const [roadmapData, setRoadmapData] = useState([]);
+
   const [userData, setUserData] = useState(null);
+
+  const [schedule, setSchedule] = useState([]);
+
 
   useEffect(() => {
 
     const savedRoadmap = localStorage.getItem("roadmapData");
+
     const savedUser = localStorage.getItem("userData");
 
-    console.log("RAW ROADMAP:", savedRoadmap);
 
     if (savedRoadmap) {
 
       const parsedRoadmap = JSON.parse(savedRoadmap);
 
-      console.log("PARSED ROADMAP:", parsedRoadmap);
-
-      // FIXED DATA EXTRACTION
       if (Array.isArray(parsedRoadmap)) {
+
         setRoadmapData(parsedRoadmap);
       }
 
       else if (Array.isArray(parsedRoadmap.roadmap)) {
+
         setRoadmapData(parsedRoadmap.roadmap);
       }
 
       else if (Array.isArray(parsedRoadmap.data)) {
+
         setRoadmapData(parsedRoadmap.data);
       }
 
       else if (Array.isArray(parsedRoadmap.data?.roadmap)) {
-        setRoadmapData(parsedRoadmap.data.roadmap);
-      }
 
-      else {
-        console.log("NO VALID ROADMAP ARRAY FOUND");
+        setRoadmapData(parsedRoadmap.data.roadmap);
       }
     }
 
+
     if (savedUser) {
-      setUserData(JSON.parse(savedUser));
+
+      const parsedUser = JSON.parse(savedUser);
+
+      setUserData(parsedUser);
     }
 
   }, []);
 
+
+  useEffect(() => {
+
+    const loadSchedule = async () => {
+
+      try {
+
+        const userData = JSON.parse(
+          localStorage.getItem("userData")
+        );
+
+        const response = await generateSchedule({
+
+          role: userData.role,
+
+          experience_level: userData.level,
+
+          tech_stack: userData.techStack
+
+        });
+
+        setSchedule(response.schedule);
+
+      } catch (error) {
+
+        console.log(error);
+      }
+    };
+
+    loadSchedule();
+
+  }, []);
+
+
   return (
+
     <div className="prep-root">
 
       <header className="prep-header">
+
         <span className="prep-logo">
           PrepAI
         </span>
+
       </header>
 
       <main className="prep-main">
 
         {/* ROADMAP */}
+
         <section className="roadmap-card">
 
           <div className="roadmap-top">
@@ -135,28 +170,37 @@ export default function Prep() {
                     <StageIcon status={stage.status} />
 
                     <div className="stage-num">
+
                       STAGE {String(index + 1).padStart(2, "0")}
+
                     </div>
 
                     <div className="stage-label">
+
                       {stage.label}
+
                     </div>
 
                     <div className={`stage-sub stage-sub--${stage.status}`}>
 
-                      {stage.status === "complete" && "Complete"}
+                      {stage.status === "complete" &&
+                        "Complete"
+                      }
 
                       {stage.status === "inprogress" &&
                         `In Progress (${stage.progress}%)`
                       }
 
-                      {stage.status === "locked" && "Locked"}
+                      {stage.status === "locked" &&
+                        "Locked"
+                      }
 
                     </div>
 
                   </div>
 
                   {index < roadmapData.length - 1 && (
+
                     <div
                       className={`stage-connector ${
                         stage.status === "complete"
@@ -164,6 +208,7 @@ export default function Prep() {
                           : ""
                       }`}
                     />
+
                   )}
 
                 </React.Fragment>
@@ -173,7 +218,9 @@ export default function Prep() {
             ) : (
 
               <div style={{ color: "white", marginTop: "20px" }}>
+
                 No roadmap data found
+
               </div>
 
             )}
@@ -183,15 +230,19 @@ export default function Prep() {
         </section>
 
         {/* BOTTOM GRID */}
+
         <div className="prep-grid">
 
           {/* SCHEDULE */}
+
           <section className="schedule-card">
 
             <div className="schedule-header">
+
               <h3 className="schedule-title">
                 Today's Schedule
               </h3>
+
             </div>
 
             <div className="schedule-list">
@@ -213,21 +264,29 @@ export default function Prep() {
                     <div className="schedule-row1">
 
                       <span className="schedule-time">
+
                         {item.time}
+
                       </span>
 
                       <span className="schedule-duration">
+
                         {item.duration}
+
                       </span>
 
                     </div>
 
                     <div className="schedule-name">
+
                       {item.title}
+
                     </div>
 
                     <div className="schedule-desc">
+
                       {item.desc}
+
                     </div>
 
                   </div>
@@ -241,63 +300,69 @@ export default function Prep() {
           </section>
 
           {/* RIGHT SIDE */}
+
           <div className="prep-right">
 
             <div className="launch-card">
 
               <h3 className="launch-title">
+
                 Start your preparation session
+
               </h3>
 
               <p className="launch-desc">
+
                 Launch our high-fidelity AI environment
                 to practice real-time technical questions.
+
               </p>
 
               <button
-  className="launch-btn"
-  onClick={async () => {
+                className="launch-btn"
+                onClick={async () => {
 
-    try {
+                  try {
 
-      const userData = JSON.parse(
-        localStorage.getItem("userData")
-      );
+                    const userData = JSON.parse(
+                      localStorage.getItem("userData")
+                    );
 
-      const response = await generateQuestions({
+                    const response = await generateQuestions({
 
-  role: userData.role,
+                      role: userData.role,
 
-  experience_level: userData.level,
+                      experience_level: userData.level,
 
-  tech_stack: userData.techStack
+                      tech_stack: userData.techStack
 
-});
+                    });
 
-      // SAVE QUESTIONS
+                    localStorage.setItem(
+                      "questionData",
+                      JSON.stringify(response)
+                    );
 
-      localStorage.setItem(
-        "questionData",
-        JSON.stringify(response.questions)
-      );
+                    window.location.href = "/question";
 
-      // REDIRECT
+                  } catch (error) {
 
-      window.location.href = "/question";
+                    console.log("QUESTION ERROR:", error);
 
-    } catch (error) {
+                    alert("Backend question generation failed");
+                  }
 
-      console.log("QUESTION ERROR:", error);
+                }}
+              >
 
-      alert("Backend question generation failed");
-    }
+                Launch AI Q&A
 
-  }}
->
-  Launch AI Q&A
-</button>
+              </button>
+
               <span className="launch-powered">
+
                 POWERED BY PREPAI INTELLIGENCE
+
               </span>
 
             </div>
@@ -307,11 +372,15 @@ export default function Prep() {
               <div className="insight-text">
 
                 <div className="insight-label">
+
                   Daily Insight
+
                 </div>
 
                 <div className="insight-value">
+
                   Your preparation consistency is improving rapidly.
+
                 </div>
 
               </div>
@@ -325,7 +394,9 @@ export default function Prep() {
       </main>
 
       <footer className="prep-footer">
+
         © 2024 PrepAI. All rights reserved.
+
       </footer>
 
     </div>

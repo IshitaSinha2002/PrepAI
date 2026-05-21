@@ -31,3 +31,13 @@ export const evaluateAnswer = async (data) => {
 
   return response.data;
 };
+
+export const generateSchedule = async (data) => {
+
+  const response = await axios.post(
+    `${BASE_URL}/generate-schedule`,
+    data
+  );
+
+  return response.data;
+};
