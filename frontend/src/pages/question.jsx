@@ -13,26 +13,32 @@ export default function Question({ onNext }) {
 
   const [feedback, setFeedback] = useState(null);
 
+  const [questions, setQuestions] = useState([]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const [question, setQuestion] = useState(null);
 
 
   useEffect(() => {
 
-    const stored = localStorage.getItem("questionData");
+  const stored = localStorage.getItem("questionData");
 
-    if (stored) {
+  if (stored) {
 
-      const parsedData = JSON.parse(stored);
+    const parsedData = JSON.parse(stored);
 
-      const questions = parsedData.questions;
+    const loadedQuestions = parsedData.questions;
 
-      if (questions && questions.length > 0) {
+    if (loadedQuestions && loadedQuestions.length > 0) {
 
-        setQuestion(questions[0]);
-      }
+      setQuestions(loadedQuestions);
+
+      setQuestion(loadedQuestions[0]);
     }
+  }
 
-  }, []);
+}, []);
 
 
   if (!question) {
@@ -76,6 +82,23 @@ export default function Question({ onNext }) {
     setFeedback(null);
   };
 
+  const handleNextQuestion = () => {
+
+  const nextIndex = currentIndex + 1;
+
+  if (nextIndex < questions.length) {
+
+    setCurrentIndex(nextIndex);
+
+    setQuestion(questions[nextIndex]);
+
+    setAnswer("");
+
+    setSubmitted(false);
+
+    setFeedback(null);
+  }
+};
 
   return (
 
@@ -158,7 +181,7 @@ export default function Question({ onNext }) {
 
               <button
                 className="action-btn action-btn--next"
-                onClick={onNext}
+                onClick={handleNextQuestion}
               >
 
                 Next Question
